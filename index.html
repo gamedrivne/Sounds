@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 Sound Gallery</title>
+<style>
+body {
+  background:#0f1720;
+  color:#fff;
+  font-family:sans-serif;
+  margin:0;
+  text-align:center;
+}
+h1 { margin:1rem 0; }
+#gallery {
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  padding:15px;
+  max-width:500px;
+  margin:auto;
+}
+.card {
+  background:#18232e;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.5);
+}
+.title { font-weight:bold; margin-bottom:8px; font-size:16px; }
+button {
+  margin:5px;
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#00bcd4;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover { background:#0097a7; }
+</style>
+</head>
+<body>
+<h1>🎧 Sound Gallery</h1>
+<div id="gallery"></div>
+
+<script>
+const JSON_URL = "https://raw.githubusercontent.com/gamedrivne/Sounds/main/sounds.json";
+const gallery = document.getElementById("gallery");
+
+fetch(JSON_URL)
+  .then(res => res.json())
+  .then(data => {
+    const sounds = data.sounds || [];
+    gallery.innerHTML = "";
+
+    sounds.forEach((sound, index) => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const title = document.createElement("div");
+      title.className = "title";
+      title.textContent = sound.title;
+
+      const audio = new Audio(sound.file);
+
+      const playBtn = document.createElement("button");
+      playBtn.textContent = "▶ Play";
+      playBtn.onclick = () => {
+        stopAll();
+        audio.play();
+      };
+
+      const pauseBtn = document.createElement("button");
+      pauseBtn.textContent = "⏸ Pause";
+      pauseBtn.onclick = () => audio.pause();
+
+      const stopBtn = document.createElement("button");
+      stopBtn.textContent = "⏹ Stop";
+      stopBtn.onclick = () => {
+        audio.pause();
+        audio.currentTime = 0;
+      };
+
+      const controls = document.createElement("div");
+      controls.append(playBtn, pauseBtn, stopBtn);
+
+      card.append(title, controls);
+      gallery.appendChild(card);
+    });
+  })
+  .catch(err => {
+    console.error("Erreur JSON :", err);
+    gallery.textContent = "⚠️ Impossible de charger les sons.";
+  });
+
+function stopAll() {
+  document.querySelectorAll("audio").forEach(a => {
+    a.pause();
+    a.currentTime = 0;
+  });
+}
+</script>
+</body>
+</html>
