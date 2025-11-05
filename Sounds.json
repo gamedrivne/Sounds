@@ -1,0 +1,16 @@
+{
+  "sounds": [
+    {
+      "title": "Musi",
+      "file": "https://raw.githubusercontent.com/toncompte/sounds/main/son/musi.mp3"
+    },
+    {
+      "title": "April",
+      "file": "https://raw.githubusercontent.com/toncompte/sounds/main/son/april-198611.mp3"
+    },
+    {
+      "title": "Relax",
+      "file": "https://raw.githubusercontent.com/toncompte/sounds/main/son/relax-271554.mp3"
+    }
+  ]
+}
